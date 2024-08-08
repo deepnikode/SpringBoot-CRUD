@@ -19,6 +19,8 @@ import com.deepnikode.blog.payloads.ApiResponse;
 import com.deepnikode.blog.payloads.UserDto;
 import com.deepnikode.blog.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController 
@@ -33,7 +35,7 @@ public class UserController
 	
 	
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto)
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
 	{
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
@@ -51,7 +53,7 @@ public class UserController
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<?> deleteUser(@PathVariable("userId") Integer uId)
 	{
-		this.deleteUser(uId);
+		this.userService.deleteUser(uId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully",true), HttpStatus.OK);
 	}	
 	

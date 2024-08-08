@@ -3,6 +3,7 @@ package com.deepnikode.blog.services.Impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepo userRepo;
 	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	// Method to Create Users
 	@Override
@@ -26,8 +29,9 @@ public class UserServiceImpl implements UserService {
 		User user=this.dtoToUser(userDto);
 		
 		User savedUser=this.userRepo.save(user);
+				
 		
-		System.out.println("User Created");
+		
 		return this.userToDto(savedUser);
 	}
 	
@@ -98,13 +102,20 @@ public class UserServiceImpl implements UserService {
 	// Converting DTO to users
 	public User dtoToUser(UserDto userDto)
 	{
-		User user=new User();
+//		User user=new User();
+//		
+//		user.setId(userDto.getId());
+//		user.setName(userDto.getName());
+//		user.setEmail(userDto.getEmail());
+//		user.setPassword(userDto.getPassword());
+//		user.setAbout(userDto.getAbout());
+		  
 		
-		user.setId(userDto.getId());
-		user.setName(userDto.getName());
-		user.setEmail(userDto.getEmail());
-		user.setPassword(userDto.getPassword());
-		user.setAbout(userDto.getAbout());
+		// ModelMapper made it EASY....
+		
+		
+		
+		User user=this.modelMapper.map(userDto, User.class);
 		
 		return user;
 	}
@@ -112,14 +123,19 @@ public class UserServiceImpl implements UserService {
 	// Converting users to DTO
 	public UserDto userToDto(User user)
 	{
-		UserDto userDto=new UserDto();
+//		UserDto userDto=new UserDto();
+//		
+//		userDto.setId(user.getId());
+//		userDto.setName(user.getName());
+//		userDto.setEmail(user.getEmail());
+//		userDto.setPassword(user.getPassword());
+//		userDto.setAbout(user.getAbout());
 		
-		userDto.setId(user.getId());
-		userDto.setName(user.getName());
-		userDto.setEmail(user.getEmail());
-		userDto.setPassword(user.getPassword());
-		userDto.setAbout(user.getAbout());
 		
+		// ModelMapper made it EASY....
+		
+		
+		UserDto userDto=this.modelMapper.map(user, UserDto.class);
 		return userDto;
 	}
 
